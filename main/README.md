@@ -16,7 +16,7 @@ Database Models:
 
 Your database should contain the following four models, including the requirements listed for each model:
 
-Category
+---Category---
 
 id
 
@@ -34,7 +34,7 @@ String
 
 Doesn't allow null values
 
-Product
+---Product---
 
 id
 
@@ -76,7 +76,7 @@ Integer
 
 References the category model's id
 
-Tag
+---Tag---
 
 id
 
@@ -92,7 +92,7 @@ tag_name
 
 String
 
-ProductTag
+---ProductTag---
 
 id
 

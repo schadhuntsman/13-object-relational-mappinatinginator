@@ -10,13 +10,10 @@ class Product extends Model {}
 Product.init(
   id: {
     type: DataTypes.INTEGER,
-    // this is the equivalent of SQL's `NOT NULL` option
     allowNull: false,
-    // instruct that this is the Primary Key
     primaryKey: true,
-   // turn on auto increment
-   autoIncrement: true
-  
+    autoIncrement: true
+
   },
   Plain T-Shirt: {
     type: DataTypes.STRING,
@@ -38,6 +35,16 @@ Product.init(
     type: DataTypes.STRING,
     allowNull: false,
   },
+    hooks: {
+      async beforeCreate(newProductData) {
+      //   newProductDat
+      },
+
+      async beforeUpdate(update) {
+
+      }
+    },
+  
 
     sequelize,
     timestamps: false,
@@ -45,6 +52,6 @@ Product.init(
     underscored: true,
     modelName: 'product',
   }
+
 );
-}
 module.exports = Product;

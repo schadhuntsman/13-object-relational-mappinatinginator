@@ -1,38 +1,27 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
 
-
-  // find all products
 router.get('/', (req, res) => {
   Product.findAll({
-    attributes: { [
-      'id',
-      'product_name',
-      'price',
-      'stock',
-      'category_id',
-      // [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
-    ] }
+    attributes: { exclude: ['password'] }
   })
-    .then(dbecommerce => res.json
-      (dbecommerce))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+   .then(dbeCommerce => res.json(dbeCommerce))
+   .catch(err => {
+      res.status(500).json(err);
     });
+   });
+   
  // be sure to include its associated Category and Tag data
 // get one product
 router.get('/:id', (req, res) => {
     Product.findOne({
-      attributes: {  exclude: ['password'] }
-    where: {
-      id: req.params.id
-    },
-    include: [
-      {
+      attributes: {  exclude: ['password'] },
+      where: {
+        id: req.params.id
+      },
+      include: [
+       {
         model: Category,
         attributes: ['id', 'category_name']
       },
@@ -50,13 +39,13 @@ router.get('/:id', (req, res) => {
       },
     ]
   })
-      .then(dbecommerce => {
-        if(!dbecommerce) {
+      .then(dbeCommerce => {
+        if(!dbeCommerce) {
           res.status(404).json
           ({ message: 'No product found with this id' });
         return;
       }
-        res.json(dbecommerce);
+        res.json(dbeCommerce);
         })
         .catch(err => {
           console.log(err);
@@ -79,10 +68,23 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  Product.create(req.body)
+  router.post('/', (req, res) => {
+    
+    Product.create({
     .then((product) => {
-      id:
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
+      product_name: req.body.product_name,
+      price: req.body.price,
+      stock: req.body.stock,
+      category_id: req.body.category_id
+    })
+      .then(dbeCommerce => res.json(dbeCommerce))
+      .catch(err => {
+        console.log(err);
+          res.status(500).json(err);
+        });
+      });
+      
+      })
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
@@ -92,7 +94,7 @@ router.post('/', (req, res) => {
         });
         return ProductTag.bulkCreate(productTagIdArr);
       }
-      // if no product tags, just respond
+  
       res.status(200).json(product);
     })
     .then((productTagIds) => res.status(200).json(productTagIds))
@@ -100,24 +102,20 @@ router.post('/', (req, res) => {
       console.log(err);
       res.status(400).json(err);
     });
-});
 
-// update product
 router.put('/:id', (req, res) => {
-  // update product data
   Product.update(req.body, {
     where: {
       id: req.params.id,
     },
   })
     .then((product) => {
-      // find all associated tags from ProductTag
       return ProductTag.findAll({ where: { product_id: req.params.id } });
     })
     .then((productTags) => {
-      // get list of current tag_ids
+      
       const productTagIds = productTags.map(({ tag_id }) => tag_id);
-      // create filtered list of new tag_ids
+
       const newProductTags = req.body.tagIds
         .filter((tag_id) => !productTagIds.includes(tag_id))
         .map((tag_id) => {
@@ -126,12 +124,12 @@ router.put('/:id', (req, res) => {
             tag_id,
           };
         });
-      // figure out which ones to remove
+     
       const productTagsToRemove = productTags
         .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
         .map(({ id }) => id);
 
-      // run both actions
+
       return Promise.all([
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
         ProductTag.bulkCreate(newProductTags),

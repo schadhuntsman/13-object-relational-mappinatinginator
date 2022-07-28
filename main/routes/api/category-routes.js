@@ -7,16 +7,16 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
   Product.findAll()
-   .then(dbcategoryData => {
-    (dbcategoryData)) 
+   .then(dbcategoryData => 
+    res.json(dbcategoryData)) 
     .catch(err => {
       res.status(500).json(err);
     });
    });
 
 
-
-  .then(dbcategoryData)
+  //find one product
+  
   router.get('/:id', (req, res) => {
     Category.findOne({
       where: {
@@ -33,16 +33,17 @@ router.get('/', (req, res) => {
         {
           model: models.Category,
           attributes: ['id',
-          'category_name',
+          'category_name'],
           include: {
             model: models.Product,
             attributes:
             ['category_id', 'category']
           }            
-      ] 
+    }]
     }
-    });
-  });
+    )}
+    );
+  ;
   // find one category by its `id` value
   // be sure to include its associated Products
 

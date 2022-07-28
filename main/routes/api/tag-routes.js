@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
 
 router.get('/', (req, res) => {
   Product.findAll()
-   .then(dbtagData => {
-    (dbtagData)) 
+   .then(dbtagData => 
+    res.json(dbtagData))
     .catch(err => {
       res.status(500).json(err);
     });
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 
 
-  .then(dbtagData)
+
   router.get('/:id', (req, res) => {
     tag.findOne({
       where: {
@@ -36,16 +36,16 @@ router.get('/', (req, res) => {
         {
           model: models.tag,
           attributes: ['id',
-          'tag_name',
+          'tag_name'],
           include: {
             model: models.Product,
             attributes:
             ['tag_id', 'tag']
           }            
-      ] 
-    }
-    });
+    }] 
+    })
   });
+  
   // find one tag by its `id` value
   // be sure to include its associated Products
 

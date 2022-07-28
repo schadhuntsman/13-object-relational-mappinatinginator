@@ -15,26 +15,24 @@ Product.init({
     autoIncrement: true
 
   },
-  "Plain T-Shirt": {
+    product_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  "Running Sneakers": {
-    type: DataTypes.STRING,
+    price: {
+    type: DataTypes.DECIMAL,
     allowNull: false,
   },
-  "Branded Baseball Hat": {
-    type: DataTypes.STRING,
+    stock: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  "Branded Baseball Hat": {
-    type: DataTypes.STRING,
+    category_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  "Cargo Shorts": {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+
+  
     // hooks: {
     //   async beforeCreate(newProductData) {
     //   //   newProductDat

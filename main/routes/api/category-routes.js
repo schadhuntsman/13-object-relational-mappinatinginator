@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
 
   // create a new category
-router.Category('/', (req, res) => {
+router.post('/', (req, res) => {
   Category.create({
     title: req.body.title,
     category_url: req.body.category_url,
@@ -63,8 +63,7 @@ router.Category('/', (req, res) => {
 
 
 
-router.put('/:id', (req, res) => {
-  router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {  
     Category.update(
       {
         title: req.body.title
@@ -88,7 +87,7 @@ router.put('/:id', (req, res) => {
       });
   });
   // update a category by its `id` value
-});
+
 
 router.delete('/:id', (req, res) => {
   Category.destroy({

@@ -3,23 +3,19 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
-router.get('/', (req, res) => {
   // find all tags
-  // be sure to include its associated Product data
-});
-
 router.get('/', (req, res) => {
-  Product.findAll()
+  Product.findAll({
+    attributes: [
+    'id', 'tag_name']  
+    })
    .then(dbtagData => 
     res.json(dbtagData))
     .catch(err => {
       res.status(500).json(err);
     });
-   });
-
-
-
-
+  });
+  //find one
   router.get('/:id', (req, res) => {
     tag.findOne({
       where: {
@@ -40,7 +36,7 @@ router.get('/', (req, res) => {
           include: {
             model: models.Product,
             attributes:
-            ['tag_id', 'tag']
+            ['tag_name', 'tag']
           }            
     }] 
     })
@@ -50,47 +46,70 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
 
   // create a new tag
-router.tag('/', (req, res) => {
-  tag.create({
-    title: req.body.title,
-    tag_url: req.body.tag_url,
-    user_id: req.body.user_id
-  })
-    .then(dbtagData => res.json(dbtagData))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-});
-
-
-
-router.put('/:id', (req, res) => {
-  router.put('/:id', (req, res) => {
-    tag.update(
-      {
-        title: req.body.title
-      },
-      {
-        where: {
-          id: req.params.id
+  router.post('/', (req, res) => {
+    
+    Tag.create(req.body) 
+    .then(tag => {
+    if (req.body.tagIds.length) {
+      const dbtagData = req.body.tagIds.map((tag_name) => {
+        return {
+          product_id: tag.id,
+          tag_name,
         }
-      }
-    )
-      .then(dbtagData => {
-        if (!dbtagData) {
-          res.status(404).json({ message: 'No tag found with this id' });
-          return;
-        }
-        res.json(dbtagData);
       })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
+      return dbtagData(dbtagData)
+    }
+    res.status(200).json(tag)
+  })
+    
+    .then((dbtagData) => res.status(200).json(dbtagData))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
+  })
+
+  router.put('/:id', (req, res) => {
+    Product.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    })
+      .then((product) => {
+        return tag.findAll({ where: { product_id: req.params.id } });
+      })
+      .then((Tags) => {
+        
+        const tagIds = Tags.map(({ tag_name }) => tag_name);
+  
+        const newTags = req.body.tagIds
+          .filter((tag_name) => !tagIds.includes(tag_name))
+          .map((tag_name) => {
+            return {
+              product_id: req.params.id,
+              tag_name,
+            };
+          });
+       
+        const TagsToRemove = Tags
+          .filter(({ tag_name }) => !req.body.tagIds.includes(tag_name))
+          .map(({ id }) => id);
+  
+  
+        return Promise.all([
+          tag.destroy({ where: { id: TagsToRemove } }),
+          tag.bulkCreate(newTags),
+        ]);
+      })
+      .then((updatedTags) => res.json(updatedTags))
+      .catch((err) => {
+        // console.log(err);
+        res.status(400).json(err);
       });
   });
+  
   // update a tag by its `id` value
-});
+
 
 router.delete('/:id', (req, res) => {
   tag.destroy({

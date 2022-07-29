@@ -53,7 +53,7 @@ router.get('/', (req, res) => {
     if (req.body.tagIds.length) {
       const dbtagData = req.body.tagIds.map((tag_name) => {
         return {
-          product_id: tag.id,
+          tag_id: tag.id,
           tag_name,
         }
       })

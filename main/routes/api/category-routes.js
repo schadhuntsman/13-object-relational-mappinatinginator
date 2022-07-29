@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     });
    });
  
-   //find one product
+   //find one category
   router.get('/:id', (req, res) => {
     Category.findOne({
       // attributes: ['id', 'category_name'],
@@ -49,21 +49,28 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
 
   // create a new category
-router.post('/', (req, res) => {
-  
-  Category.create({
-    title: req.body.title,
-    category_url: req.body.category_url,
-    user_id: req.body.user_id
+  router.post('/', (req, res) => {
+    
+    Category.create(req.body) 
+    .then(category => {
+    if (req.body.tagIds.length) {
+      const categoryData = req.body.tagIds.map((category_id) => {
+        return {
+          category_id: category.id,
+          category_name,
+        }
+      })
+      return ProductTag.bulkCreate(categoryData)
+    }
+    res.status(200).json(category)
   })
-    .then(dbCategoryData => res.json(dbCategoryData))
-    .catch(err => {
+    
+    .then((productTagIds) => res.status(200).json(productTagIds))
+    .catch((err) => {
       console.log(err);
-      res.status(500).json(err);
+      res.status(400).json(err);
     });
-});
-
-
+  })
 
 router.put('/:id', (req, res) => {  
     Category.update(

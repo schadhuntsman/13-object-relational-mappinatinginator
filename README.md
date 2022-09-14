@@ -1,4 +1,7 @@
-# object-relational-mapping
+source db/db.sql
+source db/schema.sql
+source db/seeds.sql
+
  module 12 challenge dealing with e-commerce.
 GIVEN a functional Express.js API
 WHEN I add my database name, MySQL username, and MySQL password to an environment variable file

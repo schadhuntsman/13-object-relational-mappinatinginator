@@ -59,7 +59,8 @@ res.status(200).json(productFindOne)
  .catch((err) => {
    console.log(err);
    res.status(500).json(err);
- });
+ })
+}),
 
  //create product
  router.post('/', async (req, res) => {
@@ -92,24 +93,22 @@ res.status(200).json(productFindOne)
     console.log(err);
     res.status(400).json(err);
   });
-
+ }),
   //update product
   router.put('/:id', async (req, res) => {  
-    productUpdate = Product.update(req.body, {
+   const productUpdate = Product.update(req.body, {
          
            where: {
              id: req.params.id
-           }
+           },
          }
-       );
-         .then((product => {
-          //  if (!dbProductData) {
-          //    res.status(404).json({ message: 'No Product found with this id' });
-             return ProductTag.findAll({where: {product_id: req.params.id} });
-           }
+       )
+       .then((product) => {
+        return ProductTag.findAll({ where: { product_id: req.params.id } });
+      })
            .then((currentProductTag) => {
             const prodTagIds = currentProductTag.map(({tag_id}) => tag_id);
-            const newProductTag = req.body.tagIds
+            const productTagNew = req.body.tagIds
             .filter((tag_id) => !ProductTagIds.include(tag_id)).map((tag_id) => {
               return {
                 product_id: req.params.id,
@@ -119,21 +118,20 @@ res.status(200).json(productFindOne)
 
             const removeProductTag = currentProductTag.filter(({tag_id}) => !req.body.tagIds.include(tag_id)).map(({id}) => id);
 
-            return Promise.all([ ProductTag.destroy([where: {id: removeProductTag} ]),
-            ProductTag.bulkCreate(newProductTag)
+            return Promise.all([ ProductTag.destroy
+            ({ where: {id: removeProductTag } }),
+            ProductTag.bulkCreate(productTagNew)
           ]);
           }).then((productUpdateTag) => res.json(productUpdateTag)).catch((err) => {
             res.status(400).json(err);
           
           });
-          });
-         
-     });
+      }),
    
      //delete product
 
      router.delete('/:id', async (req, res) => {
-      productDelete = Product.destroy({
+      const productDelete = Product.destroy({
          where: {
            id: req.params.id
          },
@@ -144,9 +142,9 @@ res.status(200).json(productFindOne)
            return;
          }
        res.status(200).json(productDelete)
-       .catch (err) {
+       .catch (err) 
          res.status(500).json(err);
-       }
-     });
-    
-module.exports = router;
+        
+    })
+ 
+     module.exports = router;

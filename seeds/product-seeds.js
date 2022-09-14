@@ -20,7 +20,7 @@ const productData = [
     category_id: 4,
   },
   {
-    product_name: 'Branded Baseball Hat',
+    product_name: 'Top 40 Music Compilation Vinyl Record',
     price: 12.99,
     stock: 50,
     category_id: 3,

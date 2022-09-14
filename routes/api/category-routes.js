@@ -11,7 +11,11 @@ router.get('/', async (req, res) => {
       {
       model: Product,
       attributes: [
-        "id", "price", "product_name", "stock", "category_id"
+        "id",
+        "price",
+        "product_name",
+        "stock",
+        "category_id"
       ],
       },
     ],
@@ -101,11 +105,11 @@ router.put('/:id', async (req, res) => {
           return;
         }
         res.status(200).json(categoryUpdate)
-        .catch(err) {
+        .catch(err) 
           res.status(500).json(err);
       }
  
-  });
+  );
 
  
   // delete a category by its `id` value
@@ -122,9 +126,9 @@ router.delete('/:id', async (req, res) => {
       return;
     }
   res.status(200).json(categoryDelete)
-  .catch (err) {
+  .catch (err) 
     res.status(500).json(err);
-  }
+  
 });
   // delete a category by its `id` value
 

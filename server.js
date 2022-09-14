@@ -1,13 +1,13 @@
 const express = require('express');
 const routes = require('./routes');
-const{ Sequelize } = require('sequelize');
+const Sequelize  = require('sequelize');
+// const sequelize = new Sequelize;
+const sequelize = require('./db/connection');
 
-// const sequelize = require('./db/connection');
-
-const sequelize = new Sequelize('ecommerce_db', 'root', 'password', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+// const sequelize = new Sequelize('ecommerce_db', 'root', 'password', {
+//   host: 'localhost',
+//   dialect: 'mysql',
+// });
 // import sequelize connection
 
 

@@ -1,5 +1,5 @@
 const path = require('path')
-// require('dotenv').config();
+require('dotenv').config();
 
 // require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 // import sequelize constructor from library
@@ -16,6 +16,6 @@ const sequelize = process.env.JAWSDB_URL
       },
     });
 
-    require('dotenv').config();
+    
 
 module.exports = sequelize;

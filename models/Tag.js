@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../db/connection.js');
 
-{ force: true }
+// { force: true }
 
 class Tag extends Model {}
 
@@ -16,10 +16,8 @@ Tag.init(
     // define columns
   },
  tag_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.STRING
 
-  // define columns
 },
   },
   {

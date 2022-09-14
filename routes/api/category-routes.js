@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('sequelize');
-const { removeGlobalNodeModuleLookupPaths } = require('../../../../../AppData/Local/Programs/Microsoft VS Code/resources/app/out/bootstrap-node');
+// const { removeGlobalNodeModuleLookupPaths } = require('../../../../../AppData/Local/Programs/Microsoft VS Code/resources/app/out/bootstrap-node');
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint

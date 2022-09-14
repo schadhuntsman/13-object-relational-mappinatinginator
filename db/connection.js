@@ -1,6 +1,8 @@
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-//import sequelize constructor from library
+require('dotenv').config();
+
+// require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+// import sequelize constructor from library
 const Sequelize = require('sequelize');
 
 //create a connection to database, pass in mysql information for db_name, db_user, db_password

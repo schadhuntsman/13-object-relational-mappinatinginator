@@ -1,8 +1,8 @@
 const express = require('express');
 const routes = require('./routes');
-const sequelize = require('sequelize');
+const{ Sequelize } = require('sequelize');
 
-const sequelize = require('./db/connection');
+// const sequelize = require('./db/connection');
 
 const sequelize = new Sequelize('ecommerce_db', 'root', 'password', {
   host: 'localhost',

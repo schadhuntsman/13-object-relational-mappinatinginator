@@ -20,14 +20,11 @@ router.get('/', async (req, res) => {
       },
     ],
   });
-  res.status(200).json(categoryFindAll)
-  .catch((err) => {
+  res.status(200).json(categoryFindAll).catch((err) => {
     console.log(err);
     res.status(500).json(err);
-  });
-});
-   
- 
+  });;
+}),
    //find one category
   router.get('/:id', async (req, res) => {
    const categoryFindOne = Category.findOne({
@@ -62,12 +59,12 @@ router.get('/', async (req, res) => {
   return;
  }
 
- res.status(200).json(categoryFindOne)
-  .catch((err) => {
+ res.status(200).json(categoryFindOne).catch((err) => {
     console.log(err);
     res.status(500).json(err);
   });
 })
+
   
   // find one category by its `id` value
   // be sure to include its associated Products
@@ -84,8 +81,7 @@ router.get('/', async (req, res) => {
       res.status(404).json({ message:"No new category created" });
       return;
     } 
-    res.status(200).json(createCategory)
-    .catch (err);
+    res.status(200).json(createCategory).catch (err);
     res.status(500).json(err);
   }
   );
@@ -104,12 +100,11 @@ router.put('/:id', async (req, res) => {
           res.status(404).json({ message: 'No category found with this id' });
           return;
         }
-        res.status(200).json(categoryUpdate)
-        .catch(err) 
+        res.status(200).json(categoryUpdate).catch(err) 
           res.status(500).json(err);
-      }
+      
  
-  );
+    });
 
  
   // delete a category by its `id` value
@@ -125,12 +120,11 @@ router.delete('/:id', async (req, res) => {
 
       return;
     }
-  res.status(200).json(categoryDelete)
-  .catch (err) 
+  res.status(200).json(categoryDelete).catch (err) 
     res.status(500).json(err);
   
 });
   // delete a category by its `id` value
 
-
-module.exports = router;
+  
+  module.exports = router;

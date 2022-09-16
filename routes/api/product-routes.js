@@ -18,8 +18,7 @@ router.get('/', async (req, res) => {
        },
      ],
    });
-   res.status(200).json(productFindAll)
-   .catch((err) => {
+   res.status(200).json(productFindAll).catch((err) => {
      console.log(err);
      res.status(500).json(err);
    });
@@ -55,8 +54,7 @@ if (!productFindOne) {
  return;
 }
 
-res.status(200).json(productFindOne)
- .catch((err) => {
+res.status(200).json(productFindOne).catch((err) => {
    console.log(err);
    res.status(500).json(err);
  })
@@ -88,8 +86,7 @@ res.status(200).json(productFindOne)
     res.status(200).json(product);
   })
 
-  .then((ProductTagIds) => res.status(200).json(ProductTagIds))
-  .catch(err => {
+  .then((ProductTagIds) => res.status(200).json(ProductTagIds)).catch(err => {
     console.log(err);
     res.status(400).json(err);
   });
@@ -141,8 +138,7 @@ res.status(200).json(productFindOne)
      
            return;
          }
-       res.status(200).json(productDelete)
-       .catch (err) 
+       res.status(200).json(productDelete).catch (err) 
          res.status(500).json(err);
         
     })

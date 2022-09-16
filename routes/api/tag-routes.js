@@ -20,8 +20,7 @@ const { update } = require('../../models/Product');
       ],
     });
 
-     res.status(200).json(allTag)
-     .catch((err) => {
+     res.status(200).json(allTag).catch((err) => {
        console.log(err);
        res.status(500).json(err);
      });
@@ -47,8 +46,7 @@ const { update } = require('../../models/Product');
       ],
     });
   
-    res.status(200).json(oneTag) 
-    .catch (err) 
+    res.status(200).json(oneTag).catch (err) 
     res.status(500).json(err);
    });
   
@@ -99,8 +97,7 @@ const { update } = require('../../models/Product');
      
            return;
          }
-       res.status(200).json(tagDelete)
-       .catch (err) 
+       res.status(200).json(tagDelete).catch (err) 
          res.status(500).json(err);
        
      });

@@ -6,6 +6,7 @@ const { update } = require('../../models/Product');
 
   // find all tags
   router.get('/', async (req, res) => {
+    try{
     const allTag = Tag({
        include: [
         {
@@ -20,14 +21,15 @@ const { update } = require('../../models/Product');
       ],
     });
 
-     res.status(200).json(allTag).catch((err) => {
-       console.log(err);
-       res.status(500).json(err);
-     });
-   });
+     res.status(200).json(allTag);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
   
   //find one
   router.get('/:id', async (req, res) => {
+    try{
     const oneTag = tag.oneTag({
       where: {
         id:req.params.id
@@ -46,9 +48,11 @@ const { update } = require('../../models/Product');
       ],
     });
   
-    res.status(200).json(oneTag).catch (err) 
+    res.status(200).json(oneTag);
+  } catch (err) {
     res.status(500).json(err);
-   });
+  }
+});
   
   
   // find one tag by its `id` value
@@ -56,18 +60,22 @@ const { update } = require('../../models/Product');
 
   // create a new tag
   router.post('/', async (req, res) => {
+    try{
     
     const createTag = Tag.create({
     tag_name : req.body.tag_name
     });
-    res.status(200).json(createTag).catch(err) 
-      res.status(500).json(err);
-    })
+    res.status(200).json(createTag);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
   
   
   // update a tag by its `id` value
  
   router.put('/:id', async (req, res) => {  
+    try{
     tagUpdate = Tag.update(req.body, {
          
            where: {
@@ -80,13 +88,15 @@ const { update } = require('../../models/Product');
         res.status(404).json({message: "No tag updated"})
         return;
        }
-       res.status(200).json(tagUpdate).catch(err) 
-       res.status(500).json(err);
+       res.status(200).json(tagUpdate);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    });
       
-     });
-
      //delete tag
      router.delete('/:id', async (req, res) => {
+      try{
       const tagDelete = Tag.destroy({
          where: {
            id: req.params.id
@@ -97,9 +107,10 @@ const { update } = require('../../models/Product');
      
            return;
          }
-       res.status(200).json(tagDelete).catch (err) 
-         res.status(500).json(err);
-       
-     });
+       res.status(200).json(tagDelete);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    });
 
 module.exports = router;

@@ -6,6 +6,7 @@ const { Category, Product } = require('../../models');
 // The `/api/categories` endpoint
 
 router.get('/', async (req, res) => {
+  try {
  const categoryFindAll = Category.findAll({
     include: [
       {
@@ -20,13 +21,16 @@ router.get('/', async (req, res) => {
       },
     ],
   });
-  res.status(200).json(categoryFindAll).catch((err) => {
+  res.status(200).json(categoryFindAll);
+  } catch (err){ 
     console.log(err);
     res.status(500).json(err);
-  });;
-}),
+  }
+  });
+
    //find one category
   router.get('/:id', async (req, res) => {
+    try{
    const categoryFindOne = Category.findOne({
       // attributes: ['id', 'category_name'],
       where: {
@@ -59,11 +63,13 @@ router.get('/', async (req, res) => {
   return;
  }
 
- res.status(200).json(categoryFindOne).catch((err) => {
-    console.log(err);
+ res.status(200).json(categoryFindOne)
+} catch (err){ 
+  console.log(err);
     res.status(500).json(err);
+    }
   });
-})
+
 
   
   // find one category by its `id` value
@@ -71,7 +77,7 @@ router.get('/', async (req, res) => {
 
   // create a new category
   router.post('/', async (req, res) => {
-    
+    try{
     const createCategory = Category.create({
       category_name: req.body.category_name,
     
@@ -81,13 +87,16 @@ router.get('/', async (req, res) => {
       res.status(404).json({ message:"No new category created" });
       return;
     } 
-    res.status(200).json(createCategory).catch (err);
-    res.status(500).json(err);
-  }
-  );
+    res.status(200).json(createCategory)
+  } catch (err){ 
+    console.log(err);
+      res.status(500).json(err);
+      }
+    });
 
   //update category
 router.put('/:id', async (req, res) => {  
+  try{
  categoryUpdate = Category.update(req.body, {
       
         where: {
@@ -100,16 +109,17 @@ router.put('/:id', async (req, res) => {
           res.status(404).json({ message: 'No category found with this id' });
           return;
         }
-        res.status(200).json(categoryUpdate).catch(err) 
-          res.status(500).json(err);
-      
- 
-    });
+        res.status(200).json(categoryUpdate)
+        } catch (err){ 
+          console.log(err);
+            res.status(500).json(err);
+            }
+          });
 
- 
   // delete a category by its `id` value
 
 router.delete('/:id', async (req, res) => {
+  try{
  categoryDelete = Category.destroy({
     where: {
       id: req.params.id
@@ -120,10 +130,12 @@ router.delete('/:id', async (req, res) => {
 
       return;
     }
-  res.status(200).json(categoryDelete).catch (err) 
+  res.status(200).json(categoryDelete) 
+} catch (err){ 
+  console.log(err);
     res.status(500).json(err);
-  
-});
+    }
+  });
   // delete a category by its `id` value
 
   

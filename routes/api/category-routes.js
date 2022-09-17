@@ -7,7 +7,7 @@ const { Category, Product } = require('../../models');
 
 router.get('/', async (req, res) => {
   try {
- const categoryFindAll = Category.findAll({
+ const categoryFindAll = await Category.findAll({
     include: [
       {
       model: Product,
@@ -28,21 +28,13 @@ router.get('/', async (req, res) => {
   }
   });
 
-   //find one category
+   //find one category by id
   router.get('/:id', async (req, res) => {
     try{
-   const categoryFindOne = Category.findOne({
-      // attributes: ['id', 'category_name'],
+   const categoryFindOne = await Category.findOne({
       where: {
         id: req.params.id,
       },
-      attributes: [
-        'id',
-        'category_name',
-        [
-          sequelize.literal('SELECT COUNT(*) FROM ')
-        ]
-      ],
       include: [
         {
           model: Product,
@@ -71,14 +63,10 @@ router.get('/', async (req, res) => {
   });
 
 
-  
-  // find one category by its `id` value
-  // be sure to include its associated Products
-
   // create a new category
   router.post('/', async (req, res) => {
     try{
-    const createCategory = Category.create({
+    const createCategory = await Category.create({
       category_name: req.body.category_name,
     
     }) 
@@ -97,7 +85,7 @@ router.get('/', async (req, res) => {
   //update category
 router.put('/:id', async (req, res) => {  
   try{
- categoryUpdate = Category.update(req.body, {
+ categoryUpdate = await Category.update(req.body, {
       
         where: {
           id: req.params.id
@@ -120,7 +108,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try{
- categoryDelete = Category.destroy({
+ categoryDelete = await Category.destroy({
     where: {
       id: req.params.id
     },

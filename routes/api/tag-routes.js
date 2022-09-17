@@ -7,7 +7,7 @@ const { update } = require('../../models/Product');
   // find all tags
   router.get('/', async (req, res) => {
     try{
-    const allTag = Tag({
+    const allTag = await Tag.findAll({
        include: [
         {
           model: Product,
@@ -30,7 +30,7 @@ const { update } = require('../../models/Product');
   //find one
   router.get('/:id', async (req, res) => {
     try{
-    const oneTag = tag.oneTag({
+    const oneTag = await Tag.findOne({
       where: {
         id:req.params.id
       },
@@ -62,7 +62,7 @@ const { update } = require('../../models/Product');
   router.post('/', async (req, res) => {
     try{
     
-    const createTag = Tag.create({
+    const createTag = await Tag.create({
     tag_name : req.body.tag_name
     });
     res.status(200).json(createTag);
@@ -76,7 +76,7 @@ const { update } = require('../../models/Product');
  
   router.put('/:id', async (req, res) => {  
     try{
-    tagUpdate = Tag.update(req.body, {
+    tagUpdate = await Tag.update(req.body, {
          
            where: {
              id: req.params.id
@@ -97,7 +97,7 @@ const { update } = require('../../models/Product');
      //delete tag
      router.delete('/:id', async (req, res) => {
       try{
-      const tagDelete = Tag.destroy({
+      const tagDelete = await Tag.destroy({
          where: {
            id: req.params.id
          },

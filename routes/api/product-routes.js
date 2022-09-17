@@ -3,7 +3,7 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 router.get('/', async (req, res) => {
  try{
-  const productFindAll = Product.findAll({
+  const productFindAll = await Product.findAll({
      include: [
       {
         model: Category,
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 // get one product
 router.get('/:id', async (req, res) => {
  try{
-  const productFindOne = Product.findOne({
+  const productFindOne = await Product.findOne({
      where: {
       id: req.params.id
     },
@@ -65,7 +65,7 @@ res.status(200).json(productFindOne)
  //create product
  router.post('/', async (req, res) => {
   try{
-  const createProduct = Product.create({
+  const createProduct = await Product.create({
     product_name: req.body.product_name,
     price: req.body.price,
     stock: req.body.stock,
@@ -96,7 +96,7 @@ res.status(200).json(productFindOne)
   //update product
   router.put('/:id', async (req, res) => {  
    
-    const productUpdate = Product.update(req.body, {
+    const productUpdate = await Product.update(req.body, {
          
            where: {
              id: req.params.id
@@ -133,7 +133,7 @@ res.status(200).json(productFindOne)
 
      router.delete('/:id', async (req, res) => {
       try{
-      const productDelete = Product.destroy({
+      const productDelete = await Product.destroy({
          where: {
            id: req.params.id
          },

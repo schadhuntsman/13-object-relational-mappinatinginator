@@ -88,7 +88,7 @@ res.status(200).json(productFindOne)
     res.status(200).json(product);
   })
 
-  .then((ProductTagIds) => res.status(200).json(ProductTagIds))
+  .then((prodTagIds) => res.status(200).json(prodTagIds))
 } catch (err) {
   res.status(500).json(err);
 }
@@ -109,7 +109,7 @@ res.status(200).json(productFindOne)
            .then((currentProductTag) => {
             const prodTagIds = currentProductTag.map(({tag_id}) => tag_id);
             const productTagNew = req.body.tagIds
-            .filter((tag_id) => !ProductTagIds.include(tag_id)).map((tag_id) => {
+            .filter((tag_id) => !prodTagIds.include(tag_id)).map((tag_id) => {
               return {
                 product_id: req.params.id,
                 tag_id,

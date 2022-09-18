@@ -106,28 +106,35 @@ res.status(200).json(productFindOne)
        .then((product) => {
         return ProductTag.findAll({ where: { product_id: req.params.id } });
       })
-           .then((currentProductTag) => {
-            const prodTagIds = currentProductTag.map(({tag_id}) => tag_id);
-            const productTagNew =  req.body.tagIds.filter((tag_id) => !prodTagIds.include(tag_id)).map((tag_id) => {
+      .then((productTags) => {
+        // get list of current tag_ids
+        const productTagIds = productTags.map(({ tag_id }) => tag_id);
+        // create filtered list of new tag_idstag_id);
+            const newProductTags = req.body.tagIds
+            (newProductTags || []).filter(newProductTags.tag_id=tag_id)
+             if( !productTagIds.includes(tag_id)){
+            //  .filter((tag_id)
               return {
                 product_id: req.params.id,
                 tag_id,
               };
-            });
-
-            const removeProductTag = currentProductTag.filter(({tag_id}) => !req.body.tagIds.include(tag_id)).map(({id}) => id);
-
+            };
+          
+            const productTagsToRemove = productTags
+            .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
             return Promise.all([ ProductTag.destroy
             ({ where: {id: removeProductTag } }),
             ProductTag.bulkCreate(productTagNew)
           ])
+        })
           .then((updatedProductTags) => res.json(updatedProductTags))
           .catch((err) => {
          
             res.status(400).json(err);
-          });
-      });
-    })
+          })
+   
+    
+    
      //delete product
 
      router.delete('/:id', async (req, res) => {
@@ -147,6 +154,6 @@ res.status(200).json(productFindOne)
         res.status(500).json(err);
       }
     
-    });
- 
+    })
+  })
      module.exports = router;

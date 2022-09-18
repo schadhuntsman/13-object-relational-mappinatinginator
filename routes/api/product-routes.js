@@ -108,8 +108,7 @@ res.status(200).json(productFindOne)
       })
            .then((currentProductTag) => {
             const prodTagIds = currentProductTag.map(({tag_id}) => tag_id);
-            const productTagNew = req.body.tagIds
-            .filter((tag_id) => !prodTagIds.include(tag_id)).map((tag_id) => {
+            const productTagNew =  req.body.tagIds.filter((tag_id) => !prodTagIds.include(tag_id)).map((tag_id) => {
               return {
                 product_id: req.params.id,
                 tag_id,

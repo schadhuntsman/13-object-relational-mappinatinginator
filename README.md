@@ -1,4 +1,1 @@
- module 13 challenge dealing with e-commerce.
-source db/db.sql
-source db/schema.sql
-source db/seeds.sql
+This is a demonstration of Express, Sequelize, and mysql working together to use db routes and commands from Insomnia to perform different tasks in a database that we seeded and started ourselves. 
